@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+    Home page
+{% endblock title %}
+{% block content %}
+    <main>
+        <div class="conainer">
+            <h1>Hello, {{ user.username }}</h1>
+            <a href="{% url 'id-logout' %}">Logout</a>
+        </div>
+    </main>
+{% endblock content %}

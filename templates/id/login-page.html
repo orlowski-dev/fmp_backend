@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}
+    Login page
+{% endblock title %}
+{% block content %}
+    <main class="p-4">
+        <div class="p-3 border border-light-subtle rounded-3 mx-auto shadow-sm"
+             style="max-width: 380px">
+            <form action="" method="post">
+                {% csrf_token %}
+                <h1 class="h4 mb-4">{{ form_title }}</h1>
+                <input type="hidden" name="next" value="{{ next }}">
+                {% for field in form %}
+                    <div class="mb-2">
+                        <label for="id_{{ field.name }}" class="form-label">{{ field.label }}:</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="d-flex justify-content-between mb-4">
+                    <a href="">Forgot password</a>
+                    <button class="btn btn-primary">Login</button>
+                </div>
+            </form>
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}<div class="alert alert-danger" role="alert">{{ error }}</div>{% endfor %}
+            {% endif %}
+            <div class="text-center">
+                <a href="/id/register?next={{ next|urlencode }}">Create an account</a>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
