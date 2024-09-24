@@ -15,7 +15,7 @@ def login_view(request):
 
         if form.is_valid():
             login(request, user=form.user)
-            return redirect("home")
+            return redirect(next_url)
 
     else:
         form = forms.LoginForm()
@@ -45,7 +45,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user=user)
-            return redirect("home")
+            return redirect(next_url)
 
     else:
         form = forms.CreateUserForm()
