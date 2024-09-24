@@ -16,11 +16,13 @@ SECRET_KEY = ENV("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENV("DEBUG")
 
+
 if DEBUG is True:
     ALLOWED_HOSTS = ["*"]
     CORS_ORIGIN_ALLOW_ALL = True
 else:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = [ENV("SERVER_URI")]
+    CORS_ALLOWED_ORIGINS = ENV("CORS_ALLOWED_ORIGINS").split(",")
 
 # Application definition
 
@@ -78,12 +80,24 @@ WSGI_APPLICATION = "project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if DEBUG is True:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": ENV("DB_NAME"),
+            "USER": ENV("DB_USER"),
+            "PASSWORD": ENV("DB_PASSWORD"),
+            "HOST": ENV("DB_HOST"),
+            "PORT": ENV("DB_PORT"),
+        }
+    }
 
 
 # Password validation
