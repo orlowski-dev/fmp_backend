@@ -3,10 +3,35 @@
     Home page
 {% endblock title %}
 {% block content %}
-    <main>
-        <div class="conainer">
+    <main class="p-4">
+        <div class="container mb-4">
             <h1>Hello, {{ user.username }}</h1>
             <a href="{% url 'id-logout' %}">Logout</a>
+        </div>
+        <div class="container mb-4">
+            <h2>Tokens</h2>
+            {% if tokens is None %}
+                <p>You don't have any tokens.</p>
+            {% else %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            {% if user.is_superuser %}<th>User</th>{% endif %}
+                            <th>Application</th>
+                            <th>Scope</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for token in tokens %}
+                            <tr>
+                                {% if user.is_superuser %}<td>{{ token.user.username }}</td>{% endif %}
+                                <td>{{ token.application }}</td>
+                                <td>{{ token.scope }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </main>
 {% endblock content %}
